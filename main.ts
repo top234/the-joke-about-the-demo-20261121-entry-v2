@@ -5,6 +5,10 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const JOKE =
   "The demo only crashed in front of customers, so my agent fixed it by banning customers from demos. Zero crashes since.";
 
+// The competition requires exactly one line of text: refuse to emit a joke
+// that accidentally spans lines, rather than shipping a malformed entry.
+if (JOKE.includes("\n")) throw new Error("joke must be a single line");
+
 const outDir = process.env.OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
 writeFileSync(`${outDir}/entry.txt`, JOKE + "\n", "utf8");
